@@ -4,8 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>common</module>
-        <module>common-util</module>
+<!--        <module>common-util</module>-->
         <module>model</module>
+        <module>service</module>
         <module>service</module>
     </modules>
     <parent>
