@@ -22,6 +22,7 @@ import java.util.Random;
  * @version 1.0
  * @date 2022/2/13 10:30
  */
+@CrossOrigin
 @Api(tags = "医院设置管理")
 @RestController
 @RequestMapping("/admin/hosp/hospitalSet/")
@@ -118,7 +119,7 @@ public class HospitalSetController {
         return Result.ok();
     }
     //进行医院设置的锁定和解锁
-    @PutMapping("lockHospitalSet")
+    @PutMapping("lockHospitalSet/{id}/{status}")
     public Result lockHospitalSet(@PathVariable Integer id,
                                   @PathVariable Integer status){
         return hospitalSetService.update(new UpdateWrapper<HospitalSet>().set("status",status).eq("id",id))?
