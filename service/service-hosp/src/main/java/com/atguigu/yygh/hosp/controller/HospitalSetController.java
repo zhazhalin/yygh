@@ -1,7 +1,7 @@
 package com.atguigu.yygh.hosp.controller;
 
 import com.atguigu.common.result.Result;
-import com.atguigu.yygh.common.utils.MD5;
+import com.atguigu.yygh.common.util.MD5;
 import com.atguigu.yygh.hosp.service.HospitalSetService;
 import com.atguigu.yygh.model.hosp.HospitalSet;
 import com.atguigu.yygh.vo.hosp.HospitalSetQueryVo;
