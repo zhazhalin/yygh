@@ -11,4 +11,8 @@ import java.util.List;
  */
 public interface DictService {
     List<Dict> findChlidData(Long id);
+
+    String getNameByParentDictCodeAndValue(String parentid, String value);
+
+    List<Dict> findByDictCode(String dictcode);
 }
