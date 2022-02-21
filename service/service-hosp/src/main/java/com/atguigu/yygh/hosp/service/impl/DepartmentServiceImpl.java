@@ -5,13 +5,14 @@ import com.atguigu.yygh.hosp.repository.DepartmentReponsitory;
 import com.atguigu.yygh.hosp.service.DepartmentService;
 import com.atguigu.yygh.model.hosp.Department;
 import com.atguigu.yygh.vo.hosp.DepartmentQueryVo;
+import com.atguigu.yygh.vo.hosp.DepartmentVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author zhazhalin
@@ -70,5 +71,42 @@ public class DepartmentServiceImpl implements DepartmentService {
             //调用方法删除
             reponsitory.deleteById(department.getId());
         }
+    }
+    /**
+     *根据医院code查询科室所有信息
+     */
+    @Override
+    public List<DepartmentVo> findDeptTree(String hoscode) {
+        List<DepartmentVo> list=new ArrayList<>(); //用于封装,创建用于返回的数据集合
+        //首先根据hoscode查询所有科室信息,然后再层层查询子节点
+        Department departmentQuery=new Department();
+        Example<Department> example =Example.of(departmentQuery);
+        List<Department> departmentList = reponsitory.findAll(example);
+        //这里是使用java8中新特性stream流的方式对数据继续宁分组
+        Map<String, List<Department>> bigcodeList = departmentList.stream()
+                .collect(Collectors.groupingBy(Department::getBigcode));
+
+        //接着对分组集合里面的数据进行遍历
+        for(Map.Entry<String,List<Department>> entry:bigcodeList.entrySet()){
+            //大科室编号
+            String bigcode=entry.getKey();
+            //大科室下的小科室
+            List<Department> departments = entry.getValue();
+            //对大科室进行封装,这是一个大科室对象
+            DepartmentVo departmentVo=new DepartmentVo();
+            departmentVo.setDepcode(bigcode);
+            departmentVo.setDepname(departments.get(0).getBigname());
+            //对小科室进行封装,通过遍历将Department的小科室封装到vo类里，然后获得小科室集合，然后添加到大科室的子节点中
+            List<DepartmentVo> children=new ArrayList<>();
+            for (Department department : departments) {
+                DepartmentVo departmentVo1=new DepartmentVo();
+                departmentVo1.setDepname(department.getDepname());
+                departmentVo1.setDepcode(department.getDepcode());
+                children.add(departmentVo1);
+            }
+            departmentVo.setChildren(children);
+            list.add(departmentVo);
+        }
+        return list;
     }
 }

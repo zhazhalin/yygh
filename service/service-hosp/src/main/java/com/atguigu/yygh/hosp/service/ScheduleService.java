@@ -28,4 +28,5 @@ public interface ScheduleService {
      */
     void remove(String hoscode, String hosScheduleId);
 
+    Map<String, Object> getSchduleRule(Long page, Long limit, String hoscode, String depcode);
 }
