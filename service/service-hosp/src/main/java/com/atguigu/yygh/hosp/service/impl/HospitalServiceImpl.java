@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -90,6 +91,19 @@ public class HospitalServiceImpl implements HospitalService {
         hospital.setStatus(status);
         Hospital save = hospitalRepository.save(hospital);
         return save;
+    }
+
+    //前台接口，根据医院名称进行模糊查询
+    @Override
+    public List<Hospital> findByHosname(String hosname) {
+        List<Hospital> hospitals=hospitalRepository.findHospitalByHosnameLike(hosname);
+        return hospitals;
+    }
+
+    @Override
+    public String getHosname(String hoscode) {
+        Hospital hosp = this.getHospByHoscode(hoscode);
+        return hosp!=null? hosp.getHosname():"无法得到此医院名称";
     }
 
     @Override

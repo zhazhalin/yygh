@@ -37,7 +37,7 @@
             <artifactId>easyexcel</artifactId>
         </dependency>
 
-        <!-- 日期工具栏依赖 -->
+        <!-- 日期工具栏依赖，可将日期转换成周制 -->
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>

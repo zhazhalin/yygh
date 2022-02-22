@@ -21,7 +21,7 @@ import java.util.Map;
  */
 @Service
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @Api(tags = "医院信息管理")
 @RequestMapping("/admin/hosp/hospital")
 public class HospitalController {
